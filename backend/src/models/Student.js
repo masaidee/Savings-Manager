@@ -1,7 +1,12 @@
 import mongoose from 'mongoose';
 
-const childSchema = new mongoose.Schema(
+const studentSchema = new mongoose.Schema(
   {
+    roomId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Room',
+      required: true,
+    },
     name: {
       type: String,
       required: true,
@@ -31,7 +36,9 @@ const childSchema = new mongoose.Schema(
   }
 );
 
-// Auto-calculate totalSaved from transactions (will be updated via controller)
-const Child = mongoose.model('Child', childSchema);
+// Index for faster queries by room
+studentSchema.index({ roomId: 1 });
 
-export default Child;
+const Student = mongoose.model('Student', studentSchema);
+
+export default Student;

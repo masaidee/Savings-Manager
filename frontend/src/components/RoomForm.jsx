@@ -1,59 +1,51 @@
 import { useState } from 'react';
 import { useApp } from '../hooks/useApp';
 
-export default function ChildForm({ onSuccess }) {
-  const { createChild, loading, error } = useApp();
+export default function RoomForm() {
+  const { createRoom, loading } = useApp();
   const [formData, setFormData] = useState({
     name: '',
-    age: '',
-    notes: '',
+    description: '',
   });
   const [localError, setLocalError] = useState('');
   const [success, setSuccess] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     setLocalError('');
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLocalError('');
     setSuccess('');
 
     if (!formData.name.trim()) {
-      setLocalError('Child name is required');
+      setLocalError('กรุณาระบุชื่อห้องเรียน');
       return;
     }
 
     try {
-      await createChild({
+      createRoom({
         name: formData.name.trim(),
-        age: formData.age ? parseInt(formData.age) : 0,
-        notes: formData.notes.trim(),
+        description: formData.description.trim(),
       });
-      setSuccess('Child added successfully!');
-      setFormData({ name: '', age: '', notes: '' });
+      setSuccess('เพิ่มห้องเรียนสำเร็จ!');
+      setFormData({ name: '', description: '' });
       setTimeout(() => setSuccess(''), 3000);
-      if (onSuccess) onSuccess();
     } catch (err) {
-      setLocalError(err || 'Failed to create child');
+      setLocalError(err || 'เพิ่มห้องเรียนไม่สำเร็จ');
     }
   };
 
-  const displayError = error || localError;
-
   return (
     <div className="card max-w-md">
-      <h2 className="text-xl font-semibold mb-4">Add New Child</h2>
+      <h2 className="text-xl font-semibold mb-4">เพิ่มห้องเรียนใหม่</h2>
 
-      {displayError && (
+      {localError && (
         <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
-          {displayError}
+          {localError}
         </div>
       )}
 
@@ -65,41 +57,26 @@ export default function ChildForm({ onSuccess }) {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="form-group">
-          <label className="form-label">Child Name *</label>
+          <label className="form-label">ชื่อห้องเรียน *</label>
           <input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            placeholder="e.g., John Doe"
+            placeholder="เช่น ป.3/1"
             className="form-input"
             disabled={loading}
           />
         </div>
 
         <div className="form-group">
-          <label className="form-label">Age</label>
+          <label className="form-label">รายละเอียด</label>
           <input
-            type="number"
-            name="age"
-            value={formData.age}
+            type="text"
+            name="description"
+            value={formData.description}
             onChange={handleChange}
-            placeholder="e.g., 8"
-            min="0"
-            max="18"
-            className="form-input"
-            disabled={loading}
-          />
-        </div>
-
-        <div className="form-group">
-          <label className="form-label">Notes</label>
-          <textarea
-            name="notes"
-            value={formData.notes}
-            onChange={handleChange}
-            placeholder="Optional notes..."
-            rows="3"
+            placeholder="รายละเอียดเพิ่มเติม (ไม่บังคับ)"
             className="form-input"
             disabled={loading}
           />
@@ -110,7 +87,7 @@ export default function ChildForm({ onSuccess }) {
           className="btn-primary w-full disabled:opacity-50"
           disabled={loading}
         >
-          {loading ? 'Adding...' : 'Add Child'}
+          {loading ? 'กำลังเพิ่ม...' : 'เพิ่มห้องเรียน'}
         </button>
       </form>
     </div>

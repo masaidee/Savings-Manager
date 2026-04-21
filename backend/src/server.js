@@ -4,9 +4,10 @@ import dotenv from 'dotenv';
 import connectDB from './config/database.js';
 
 // Import routes
-import childrenRoutes from './routes/children.js';
-import transactionsRoutes from './routes/transactions.js';
-import statisticsRoutes from './routes/statistics.js';
+import roomsRoutes from './routes/rooms.js';
+import studentsRoutes from './routes/students.js';
+import savingsRoutes from './routes/savings.js';
+import dashboardRoutes from './routes/dashboard.js';
 
 // Load environment variables
 dotenv.config();
@@ -24,9 +25,10 @@ app.use(express.json());
 connectDB();
 
 // API routes
-app.use('/api/children', childrenRoutes);
-app.use('/api/transactions', transactionsRoutes);
-app.use('/api/statistics', statisticsRoutes);
+app.use('/api/rooms', roomsRoutes);
+app.use('/api/students', studentsRoutes);
+app.use('/api/savings', savingsRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

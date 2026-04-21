@@ -1,39 +1,39 @@
 import { useEffect } from 'react';
 import { useApp } from '../hooks/useApp';
-import ChildList from '../components/ChildList';
-import ChildForm from '../components/ChildForm';
-import Statistics from '../components/Statistics';
+import RoomList from '../components/RoomList';
+import RoomForm from '../components/RoomForm';
+import DashboardStats from '../components/DashboardStats';
 
-export default function Dashboard({ onSelectChild }) {
-  const { loadChildren, loadStatistics } = useApp();
-   console.log('loadChildren',loadChildren)
+export default function Dashboard({ onSelectRoom }) {
+  const { loadRooms, loadDashboard } = useApp();
+
   useEffect(() => {
-    loadChildren();
-    loadStatistics();
+    loadRooms();
+    loadDashboard();
   }, []);
 
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-4xl font-bold text-gray-900 mb-2">
-          Savings Dashboard
+          Dashboard ภาพรวม
         </h1>
         <p className="text-gray-600">
-          Track and manage your children's savings
+          ติดตามและจัดการการออมเงินของนักเรียน
         </p>
       </div>
 
-      <Statistics />
+      <DashboardStats />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
-          <h2 className="text-2xl font-bold mb-6">Children</h2>
-          <ChildList onSelectChild={onSelectChild} />
+          <h2 className="text-2xl font-bold mb-6">ห้องเรียน</h2>
+          <RoomList onSelectRoom={onSelectRoom} />
         </div>
 
         <div>
-          <h2 className="text-2xl font-bold mb-6">Add Child</h2>
-          <ChildForm onSuccess={loadChildren} />
+          <h2 className="text-2xl font-bold mb-6">เพิ่มห้องเรียน</h2>
+          <RoomForm />
         </div>
       </div>
     </div>

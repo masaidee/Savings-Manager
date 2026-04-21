@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useApp } from '../hooks/useApp';
 
-export default function TransactionForm({ childId, onSuccess }) {
-  const { createTransaction, loading, selectedChild } = useApp();
+export default function SavingForm({ studentId }) {
+  const { createSaving, loading, selectedStudent } = useApp();
   const [formData, setFormData] = useState({
     type: 'deposit',
     amount: '',
@@ -13,43 +13,39 @@ export default function TransactionForm({ childId, onSuccess }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     setError('');
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
 
     if (!formData.amount || parseFloat(formData.amount) <= 0) {
-      setError('Please enter a valid amount');
+      setError('กรุณาระบุจำนวนเงินที่ถูกต้อง');
       return;
     }
 
     try {
-      await createTransaction({
-        childId,
+      createSaving({
+        studentId,
         type: formData.type,
         amount: parseFloat(formData.amount),
         notes: formData.notes.trim(),
       });
 
-      setSuccess(`${formData.type === 'deposit' ? 'Deposit' : 'Withdrawal'} recorded successfully!`);
+      setSuccess(`${formData.type === 'deposit' ? 'ฝากเงิน' : 'ถอนเงิน'}สำเร็จ!`);
       setFormData({ type: 'deposit', amount: '', notes: '' });
       setTimeout(() => setSuccess(''), 3000);
-      if (onSuccess) onSuccess();
     } catch (err) {
-      setError(err || 'Failed to record transaction');
+      setError(err || 'บันทึกรายการไม่สำเร็จ');
     }
   };
 
   return (
     <div className="card max-w-md">
-      <h2 className="text-xl font-semibold mb-4">Record Transaction</h2>
+      <h2 className="text-xl font-semibold mb-4">บันทึกรายการ</h2>
 
       {error && (
         <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
@@ -63,15 +59,15 @@ export default function TransactionForm({ childId, onSuccess }) {
         </div>
       )}
 
-      {selectedChild && (
+      {selectedStudent && (
         <div className="mb-4 p-3 bg-blue-50 text-blue-900 rounded-lg text-sm">
-          Current Balance: <span className="font-semibold">{selectedChild.balance.toFixed(2)} ฿</span>
+          ยอดเงินคงเหลือ: <span className="font-semibold">{selectedStudent.balance.toFixed(2)} ฿</span>
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="form-group">
-          <label className="form-label">Transaction Type</label>
+          <label className="form-label">ประเภท</label>
           <select
             name="type"
             value={formData.type}
@@ -79,19 +75,19 @@ export default function TransactionForm({ childId, onSuccess }) {
             className="form-select"
             disabled={loading}
           >
-            <option value="deposit">Deposit (Add Money)</option>
-            <option value="withdrawal">Withdrawal (Take Out)</option>
+            <option value="deposit">💰 ฝากเงิน</option>
+            <option value="withdrawal">💸 ถอนเงิน</option>
           </select>
         </div>
 
         <div className="form-group">
-          <label className="form-label">Amount (฿) *</label>
+          <label className="form-label">จำนวนเงิน (฿) *</label>
           <input
             type="number"
             name="amount"
             value={formData.amount}
             onChange={handleChange}
-            placeholder="e.g., 100"
+            placeholder="เช่น 100"
             step="0.01"
             min="0"
             className="form-input"
@@ -100,13 +96,13 @@ export default function TransactionForm({ childId, onSuccess }) {
         </div>
 
         <div className="form-group">
-          <label className="form-label">Notes</label>
+          <label className="form-label">หมายเหตุ</label>
           <input
             type="text"
             name="notes"
             value={formData.notes}
             onChange={handleChange}
-            placeholder="e.g., Weekly allowance"
+            placeholder="เช่น ออมเงินประจำสัปดาห์"
             className="form-input"
             disabled={loading}
           />
@@ -121,7 +117,7 @@ export default function TransactionForm({ childId, onSuccess }) {
           }`}
           disabled={loading}
         >
-          {loading ? 'Recording...' : 'Record Transaction'}
+          {loading ? 'กำลังบันทึก...' : 'บันทึกรายการ'}
         </button>
       </form>
     </div>

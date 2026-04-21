@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
-const transactionSchema = new mongoose.Schema(
+const savingSchema = new mongoose.Schema(
   {
-    childId: {
+    studentId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Child',
+      ref: 'Student',
       required: true,
     },
     type: {
@@ -32,8 +32,8 @@ const transactionSchema = new mongoose.Schema(
 );
 
 // Index for faster queries
-transactionSchema.index({ childId: 1, date: -1 });
+savingSchema.index({ studentId: 1, date: -1 });
 
-const Transaction = mongoose.model('Transaction', transactionSchema);
+const Saving = mongoose.model('Saving', savingSchema);
 
-export default Transaction;
+export default Saving;
