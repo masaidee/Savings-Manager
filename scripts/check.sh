@@ -21,18 +21,11 @@ else
   exit 1
 fi
 
-# Check backend node_modules
-if [ -d "backend/node_modules" ]; then
-  echo "✓ Backend dependencies installed"
+# Check node_modules
+if [ -d "node_modules" ]; then
+  echo "✓ Dependencies installed"
 else
-  echo "✗ Backend dependencies not installed. Run: npm run install-all"
-fi
-
-# Check frontend node_modules
-if [ -d "frontend/node_modules" ]; then
-  echo "✓ Frontend dependencies installed"
-else
-  echo "✗ Frontend dependencies not installed. Run: npm run install-all"
+  echo "✗ Dependencies not installed. Run: yarn install"
 fi
 
 echo ""

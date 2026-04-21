@@ -3,16 +3,15 @@
 ## Prerequisites
 
 - Node.js (v16+)
-- npm (v8+)
-- MongoDB (local or MongoDB Atlas account)
+- Yarn (v3+) or npm
 
 ## Quick Setup
 
-### Option 1: Using npm scripts (Recommended)
+### Option 1: Using yarn (Recommended)
 
 ```bash
 # 1. Install all dependencies
-npm run setup
+yarn install
 
 # 2. Create .env files (copy from .env.example)
 cp backend/.env.example backend/.env
@@ -23,7 +22,7 @@ cp frontend/.env.example frontend/.env
 # For Atlas: MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/keep
 
 # 4. Start development servers
-npm run dev
+yarn dev
 ```
 
 ### Option 2: Using Make (if you have make installed)
@@ -60,33 +59,32 @@ bash scripts/build.sh
 docker-compose up -d
 
 # Then run:
-npm run setup
-npm run dev
+yarn install
+yarn dev
 ```
 
 ## Running Components Separately
 
 ### Backend only
 ```bash
-npm run dev:backend
+yarn workspace backend dev
 # Runs on http://localhost:5000
 ```
 
 ### Frontend only
 ```bash
-npm run dev:frontend
+yarn workspace frontend dev
 # Runs on http://localhost:5173
 ```
 
-## Available npm Scripts
+## Available Yarn Scripts
 
 ```bash
-npm run setup              # Install dependencies
-npm run dev               # Run backend + frontend together
-npm run dev:backend       # Run backend only
-npm run dev:frontend      # Run frontend only
-npm run install-all       # Install all dependencies
-npm run build             # Build frontend for production
+yarn install              # Install all dependencies (monorepo)
+yarn dev                  # Run backend + frontend together
+yarn workspace backend dev    # Run backend only
+yarn workspace frontend dev   # Run frontend only
+yarn workspace frontend build # Build frontend for production
 ```
 
 ## Project Structure
@@ -114,7 +112,8 @@ keep/
 ├── scripts/             # Convenience scripts
 ├── Makefile             # Make commands
 ├── docker-compose.yml   # MongoDB container config
-└── package.json         # Root configuration
+├── package.json         # Root monorepo configuration
+└── yarn.lock            # Yarn lock file
 ```
 
 ## MongoDB Setup
@@ -169,6 +168,13 @@ docker-compose down
 ### Node version error
 - Update Node.js to v16+ at https://nodejs.org
 
+### Yarn not installed
+```bash
+npm install -g yarn
+# or
+corepack enable yarn  # if using Node 16.9+
+```
+
 ### CORS errors
 - Make sure frontend `.env` has correct API URL
 - Make sure backend `.env` has correct CORS_ORIGIN
@@ -194,7 +200,7 @@ docker-compose down
 
 ### Frontend
 ```bash
-npm run build
+yarn workspace frontend build
 # Upload frontend/dist to Vercel, Netlify, or similar
 ```
 
@@ -203,9 +209,27 @@ npm run build
 - Set environment variables on hosting platform
 - Ensure MongoDB is accessible from production
 
+## Installing Yarn
+
+If you don't have Yarn installed:
+
+```bash
+# Using npm
+npm install -g yarn
+
+# Using Homebrew (macOS)
+brew install yarn
+
+# Using Chocolatey (Windows)
+choco install yarn
+
+# Using corepack (Node.js 16.9+)
+corepack enable yarn
+```
+
 ## Support
 
 For issues or questions, check:
-- Backend logs: `npm run dev:backend`
+- Backend logs: `yarn workspace backend dev`
 - Frontend console: Browser DevTools
-- MongoDB connection: `scripts/check.sh`
+- MongoDB connection: `bash scripts/check.sh`

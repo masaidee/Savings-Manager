@@ -4,6 +4,7 @@
   "description": "Children's Savings Management System - Backend API",
   "main": "src/server.js",
   "type": "module",
+  "packageManager": "yarn@4.0.0",
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",

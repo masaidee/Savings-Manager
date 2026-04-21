@@ -16,7 +16,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+   origin: process.env.CORS_ORIGIN || 'http://localhost:5000',
 }));
 app.use(express.json());
 
@@ -30,34 +30,34 @@ app.use('/api/statistics', statisticsRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({
-    success: true,
-    message: 'Server is running',
-    timestamp: new Date().toISOString(),
-  });
+   res.json({
+      success: true,
+      message: 'Server is running',
+      timestamp: new Date().toISOString(),
+   });
 });
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Endpoint not found',
-  });
+   res.status(404).json({
+      success: false,
+      message: 'Endpoint not found',
+   });
 });
 
 // Error handler
 app.use((err, req, res, next) => {
-  console.error('Error:', err);
-  res.status(500).json({
-    success: false,
-    message: 'Internal server error',
-    error: process.env.NODE_ENV === 'development' ? err.message : undefined,
-  });
+   console.error('Error:', err);
+   res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined,
+   });
 });
 
 // Start server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
-  console.log(`\n✓ Server running on http://localhost:${PORT}`);
-  console.log(`✓ API health check: http://localhost:${PORT}/api/health\n`);
+   console.log(`\n✓ Server running on http://localhost:${PORT}`);
+   console.log(`✓ API health check: http://localhost:${PORT}/api/health\n`);
 });

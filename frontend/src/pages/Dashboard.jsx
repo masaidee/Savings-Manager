@@ -6,7 +6,7 @@ import Statistics from '../components/Statistics';
 
 export default function Dashboard({ onSelectChild }) {
   const { loadChildren, loadStatistics } = useApp();
-
+   console.log('loadChildren',loadChildren)
   useEffect(() => {
     loadChildren();
     loadStatistics();

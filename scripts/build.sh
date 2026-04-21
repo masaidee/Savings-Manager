@@ -1,10 +1,10 @@
 #!/bin/bash
 
-echo "🔨 Building for production..."
+echo "🔨 Building for production with Yarn..."
 echo ""
 
 echo "Building frontend..."
-npm run build --prefix frontend
+yarn workspace frontend build
 
 if [ $? -ne 0 ]; then
   echo "❌ Frontend build failed"

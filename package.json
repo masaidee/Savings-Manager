@@ -4,22 +4,30 @@
   "description": "Children's Savings Management System",
   "private": true,
   "scripts": {
-    "backend": "npm run dev --prefix backend",
-    "frontend": "npm run dev --prefix frontend",
-    "dev": "npm run install-all && npm run start:all",
-    "start": "npm run start:all",
-    "start:all": "npm run backend:prod & npm run frontend:prod",
-    "start:backend": "npm run start --prefix backend",
-    "start:frontend": "npm run build --prefix frontend && npm run preview --prefix frontend",
-    "dev:backend": "npm run dev --prefix backend",
-    "dev:frontend": "npm run dev --prefix frontend",
-    "build": "npm run build --prefix frontend",
-    "install-all": "npm install --prefix backend && npm install --prefix frontend",
-    "setup": "npm run install-all && echo '✓ Setup complete! Run: npm run dev'",
+    "backend": "yarn workspace backend dev",
+    "frontend": "yarn workspace frontend dev",
+    "dev": "yarn install && yarn start:all",
+    "start": "yarn start:all",
+    "start:all": "yarn workspace backend start & yarn workspace frontend start",
+    "start:backend": "yarn workspace backend start",
+    "start:frontend": "yarn workspace frontend build && yarn workspace frontend preview",
+    "dev:backend": "yarn workspace backend dev",
+    "dev:frontend": "yarn workspace frontend dev",
+    "build": "yarn workspace frontend build",
+    "setup": "yarn install && echo '✓ Setup complete! Run: yarn dev'",
     "lint": "echo 'No linter configured yet'",
     "test": "echo 'No tests configured yet'"
   },
-  "keywords": ["savings", "children", "education", "mern"],
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "keywords": [
+    "savings",
+    "children",
+    "education",
+    "mern"
+  ],
   "author": "",
   "license": "MIT"
 }

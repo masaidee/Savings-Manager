@@ -5,12 +5,19 @@ dotenv.config();
 
 const connectDB = async () => {
   try {
-    const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/keep';
+    const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/keep-db';
 
-    await mongoose.connect(mongoUri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("✅ MongoDB connected");
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB connection failed:", err.message);
+  });
+   //  await mongoose.connect(mongoUri, {
+   //    useNewUrlParser: true,
+   //    useUnifiedTopology: true,
+   //  });
 
     console.log('✓ MongoDB connected successfully');
   } catch (error) {
