@@ -79,7 +79,7 @@ export const AppProvider = ({ children }) => {
 
       const roomStudents = storedStudents
         .filter((s) => s.roomId === roomId)
-        .sort((a, b) => a.name.localeCompare(b.name));
+        .sort((a, b) => (a.studentNumber || 999) - (b.studentNumber || 999));
 
       setSelectedRoom({
         ...room,
@@ -228,6 +228,7 @@ export const AppProvider = ({ children }) => {
         _id: generateId(),
         roomId: studentData.roomId,
         name: studentData.name.trim(),
+        studentNumber: studentData.studentNumber ? parseInt(studentData.studentNumber) : undefined,
         age: studentData.age || 0,
         notes: studentData.notes || '',
         balance: 0,
@@ -524,6 +525,28 @@ export const AppProvider = ({ children }) => {
       return null;
     }
   }, []);
+  const searchStudents = useCallback((query) => {
+    if (!query || query.trim() === '') return [];
+
+    const storedStudents = getStoredData(STORAGE_KEYS.STUDENTS, []);
+    const storedRooms = getStoredData(STORAGE_KEYS.ROOMS, []);
+    const lowerQuery = query.toLowerCase().trim();
+
+    return storedStudents
+      .filter((s) => {
+        const nameMatch = s.name.toLowerCase().includes(lowerQuery);
+        const numberMatch = s.studentNumber?.toString() === lowerQuery;
+        return nameMatch || numberMatch;
+      })
+      .map((s) => {
+        const room = storedRooms.find((r) => r._id === s.roomId);
+        return {
+          ...s,
+          roomName: room?.name || 'Unknown',
+        };
+      })
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, []);
 
   const value = {
     // Data
@@ -559,6 +582,9 @@ export const AppProvider = ({ children }) => {
     // Dashboard
     loadDashboard,
     loadRoomDashboard,
+
+    // Search
+    searchStudents,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
