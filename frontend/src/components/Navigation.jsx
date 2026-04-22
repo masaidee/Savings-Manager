@@ -1,88 +1,101 @@
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import GlobalSearch from './GlobalSearch';
 
 export default function Navigation() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [open, setOpen] = useState(false);
 
   const isDashboard = location.pathname === '/';
   const isAddRoom = location.pathname === '/add-room';
 
   return (
     <>
-      {/* 🔷 TOP NAVBAR */}
+      {/* 🔷 TOP NAV */}
       <nav className="bg-white shadow sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-3 md:px-4 py-3 md:py-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 md:gap-4">
-          
-          {/* 🔹 Logo */}
-          <h1
-            className="text-base md:text-2xl font-black text-blue-600 cursor-pointer flex items-center gap-2"
-            onClick={() => navigate('/')}
-          >
-            <span className="text-xl md:text-3xl">🏫</span>
-            <span className="hidden sm:inline tracking-tight text-sm md:text-base">
-              ระบบออมเงินนักเรียน
-            </span>
-          </h1>
+        <div className="max-w-7xl mx-auto px-3 md:px-4 py-3 md:py-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
 
-          {/* 🔹 Buttons (Desktop) */}
+          {/* 🔹 ROW: Hamburger + Search */}
+          <div className="flex items-center gap-2 w-full">
+
+            {/* 🍔 Hamburger (mobile only) */}
+            <button
+              onClick={() => setOpen(true)}
+              className="md:hidden text-2xl px-2 py-1 rounded-lg active:scale-90"
+            >
+              ☰
+            </button>
+
+            {/* Logo (desktop only) */}
+            <h1
+              onClick={() => navigate('/')}
+              className="hidden md:flex text-2xl font-black text-blue-600 cursor-pointer items-center gap-2"
+            >
+              🏫 ระบบออมเงินนักเรียน
+            </h1>
+
+            {/* Search */}
+            <div className="flex-1 min-w-0">
+              <GlobalSearch />
+            </div>
+          </div>
+
+          {/* 🔹 Desktop Buttons */}
           <div className="hidden md:flex gap-3">
             <button
               onClick={() => navigate('/')}
-              className={`px-5 py-2.5 rounded-xl transition-all duration-300 font-bold text-sm ${
+              className={`px-5 py-2.5 rounded-xl font-bold text-sm ${
                 isDashboard
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-200'
-                  : 'text-gray-500 hover:bg-gray-100'
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-600 hover:bg-gray-100'
               }`}
             >
               Dashboard
             </button>
 
-            <button
-              onClick={() => navigate('/add-room')}
-              className={`px-5 py-2.5 rounded-xl transition-all duration-300 font-bold text-sm flex items-center gap-2 ${
-                isAddRoom
-                  ? 'bg-green-600 text-white shadow-lg shadow-green-200'
-                  : 'bg-green-600 text-white hover:bg-green-700'
-              }`}
-            >
-              + เพิ่มห้อง
-            </button>
-          </div>
-
-          {/* 🔹 Search */}
-          <div className="w-full md:flex-1 flex justify-center md:max-w-lg order-3 md:order-none">
-            <GlobalSearch />
           </div>
         </div>
       </nav>
 
-      {/* 🔷 BOTTOM NAV (เฉพาะ Mobile) */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t z-50 md:hidden">
-        <div className="flex">
-          
-          <button
-            onClick={() => navigate('/')}
-            className={`flex-1 py-3 text-xs font-bold flex flex-col items-center ${
-              isDashboard ? 'text-blue-600' : 'text-gray-400'
-            }`}
-          >
-            <span className="text-lg">🏠</span>
-            หน้าแรก
-          </button>
+      {/* 🔷 MOBILE MENU (Overlay) */}
+      {open && (
+        <>
+          {/* 🔸 Overlay */}
+          <div
+            className="fixed inset-0 bg-black/40 z-50"
+            onClick={() => setOpen(false)}
+          />
 
-          <button
-            onClick={() => navigate('/add-room')}
-            className={`flex-1 py-3 text-xs font-bold flex flex-col items-center ${
-              isAddRoom ? 'text-green-600' : 'text-gray-400'
-            }`}
-          >
-            <span className="text-lg">➕</span>
-            เพิ่มห้อง
-          </button>
+          {/* 🔸 Drawer */}
+          <div className="fixed top-0 left-0 h-full w-64 bg-white z-50 shadow-lg p-4 flex flex-col gap-4 animate-slide-in">
+            
+            {/* Header */}
+            <div className="flex justify-between items-center">
+              <span className="font-bold text-lg">เมนู</span>
+              <button onClick={() => setOpen(false)}>✕</button>
+            </div>
 
-        </div>
-      </div>
+            {/* Menu Items */}
+            <button
+              onClick={() => {
+                navigate('/');
+                setOpen(false);
+              }}
+              className={`text-left px-3 py-2 rounded-lg ${
+                isDashboard
+                  ? 'bg-blue-100 text-blue-600'
+                  : 'hover:bg-gray-100'
+              }`}
+            >
+              🏠 หน้าแรก
+            </button>
+
+          </div>
+        </>
+      )}
+
+
     </>
   );
 }
