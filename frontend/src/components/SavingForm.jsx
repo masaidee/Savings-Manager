@@ -44,8 +44,8 @@ export default function SavingForm({ studentId }) {
   };
 
   return (
-    <div className="card max-w-md">
-      <h2 className="text-xl font-semibold mb-4">บันทึกรายการ</h2>
+    <div className="card max-w-md w-full mx-auto md:mx-0">
+      <h2 className="text-lg md:text-xl font-semibold mb-3 md:mb-4">บันทึกรายการ</h2>
 
       {error && (
         <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">

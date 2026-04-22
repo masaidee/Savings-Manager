@@ -55,7 +55,7 @@ export default function GlobalSearch() {
       </div>
 
       {isOpen && results.length > 0 && (
-        <div className="absolute mt-2 w-full bg-white rounded-2xl shadow-2xl border border-gray-100 z-[100] max-h-96 overflow-y-auto animate-in fade-in zoom-in duration-200">
+        <div className="absolute mt-2 w-full bg-white rounded-2xl shadow-2xl border border-gray-100 z-[100] max-h-60 md:max-h-96 overflow-y-auto animate-in fade-in zoom-in duration-200">
           <div className="p-2">
             <p className="px-3 py-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
               ผลการค้นหา ({results.length})

@@ -31,7 +31,7 @@ body {
 }
 
 .card {
-  @apply bg-white rounded-lg shadow p-6;
+  @apply bg-white rounded-lg shadow p-4 md:p-6;
 }
 
 .form-group {

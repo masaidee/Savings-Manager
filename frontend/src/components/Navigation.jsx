@@ -17,8 +17,7 @@ export default function Navigation() {
           onClick={() => navigate('/')}
         >
           <span className="text-2xl md:text-3xl filter drop-shadow-sm">🏫</span>
-          <span className="hidden sm:inline tracking-tighter text-sm md:text-base">ระบบออมเงินนักเรียน</span>
-          <span className="sm:hidden tracking-tighter text-xs">Keep</span>
+          <span className="sm:inline tracking-tighter text-sm md:text-base">ระบบออมเงินนักเรียน</span>
         </h1>
 
         {/* Global Search */}
@@ -48,8 +47,7 @@ export default function Navigation() {
             }`}
           >
             <span className="text-sm md:text-base">+</span> 
-            <span className="hidden sm:inline">เพิ่มห้องเรียน</span>
-            <span className="sm:hidden">เพิ่ม</span>
+            <span className="sm:inline">เพิ่มห้องเรียน</span>
           </button>
         </div>
       </div>

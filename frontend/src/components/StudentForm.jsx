@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useApp } from '../hooks/useApp';
 
-export default function StudentForm({ roomId, onClose }) {
-  const { createStudent, loading } = useApp();
+export default function StudentForm({ roomId, studentId, initialData, onClose }) {
+  const { createStudent, updateStudent, loading } = useApp();
   const [formData, setFormData] = useState({
-    name: '',
-    studentNumber: '',
-    age: '',
-    notes: '',
+    name: initialData?.name || '',
+    studentNumber: initialData?.studentNumber || '',
+    age: initialData?.age || '',
+    notes: initialData?.notes || '',
   });
   const [localError, setLocalError] = useState('');
   const [success, setSuccess] = useState('');
@@ -29,15 +29,21 @@ export default function StudentForm({ roomId, onClose }) {
     }
 
     try {
-      createStudent({
-        roomId,
+      const studentData = {
         name: formData.name.trim(),
         studentNumber: formData.studentNumber ? parseInt(formData.studentNumber) : undefined,
         age: formData.age ? parseInt(formData.age) : 0,
         notes: formData.notes.trim(),
-      });
-      setSuccess('เพิ่มนักเรียนสำเร็จ!');
-      setFormData({ name: '', studentNumber: '', age: '', notes: '' });
+      };
+
+      if (studentId) {
+        updateStudent(studentId, studentData);
+        setSuccess('บันทึกการแก้ไขสำเร็จ!');
+      } else {
+        createStudent({ ...studentData, roomId });
+        setSuccess('เพิ่มนักเรียนสำเร็จ!');
+        setFormData({ name: '', studentNumber: '', age: '', notes: '' });
+      }
       setTimeout(() => {
         setSuccess('');
         onClose && onClose();
@@ -50,7 +56,7 @@ export default function StudentForm({ roomId, onClose }) {
   return (
     <div className="card bg-gradient-to-br from-green-50 to-white border border-green-100 sticky top-24">
       <div className="flex items-center justify-between mb-3 md:mb-5">
-        <h2 className="text-base md:text-lg font-bold text-gray-900">📝 เพิ่มนักเรียน</h2>
+        <h2 className="text-base md:text-lg font-bold text-gray-900">📝 {studentId ? 'แก้ไขข้อมูลนักเรียน' : 'เพิ่มนักเรียน'}</h2>
         {onClose && (
           <button
             onClick={onClose}
@@ -136,7 +142,7 @@ export default function StudentForm({ roomId, onClose }) {
             className="flex-1 px-3 md:px-4 py-2.5 md:py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg md:rounded-lg transition-colors duration-200 disabled:opacity-50 text-sm md:text-base"
             disabled={loading}
           >
-            {loading ? 'กำลังบันทึก...' : 'บันทึกข้อมูล'}
+            {loading ? 'กำลังบันทึก...' : (studentId ? 'บันทึกการแก้ไข' : 'บันทึกข้อมูล')}
           </button>
           {onClose && (
             <button

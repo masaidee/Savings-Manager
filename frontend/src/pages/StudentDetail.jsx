@@ -61,9 +61,16 @@ export default function StudentDetail() {
           >
             <span className="mr-1 group-hover:-translate-x-1 transition-transform">←</span> กลับห้องเรียน
           </button>
-          <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight flex items-center gap-3">
-            <span className="p-2 bg-blue-50 rounded-2xl text-3xl">👤</span>
+          <h1 className="text-2xl md:text-4xl font-extrabold text-gray-900 tracking-tight flex items-center gap-3">
+            <span className="p-2 bg-blue-50 rounded-2xl text-2xl md:text-3xl">👤</span>
             {selectedStudent.name}
+            <button
+              onClick={() => navigate(`/student/${studentId}/edit`)}
+              className="p-1.5 md:p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors border border-transparent hover:border-blue-100"
+              title="แก้ไขข้อมูลนักเรียน"
+            >
+              <span className="text-xl md:text-2xl">✏️</span>
+            </button>
           </h1>
           <div className="flex items-center gap-3 mt-3">
             {selectedStudent.age > 0 && (
@@ -76,10 +83,10 @@ export default function StudentDetail() {
           </div>
         </div>
         
-        <div className="card bg-white shadow-lg border-b-4 border-blue-600 px-10 py-6 text-center">
+        <div className="card bg-white shadow-lg border-b-4 border-blue-600 px-6 py-4 md:px-10 md:py-6 text-center">
           <p className="text-gray-500 text-sm font-bold uppercase tracking-widest mb-1">ยอดเงินคงเหลือ</p>
-          <p className="text-5xl font-black text-blue-600">
-            {selectedStudent.balance.toLocaleString('th-TH', { minimumFractionDigits: 2 })} <span className="text-2xl ml-1">฿</span>
+          <p className="text-3xl md:text-5xl font-black text-blue-600">
+            {selectedStudent.balance.toLocaleString('th-TH', { minimumFractionDigits: 2 })} <span className="text-xl md:text-2xl ml-1">฿</span>
           </p>
         </div>
       </div>
@@ -101,7 +108,7 @@ export default function StudentDetail() {
                 {savings.map((saving) => (
                   <div
                     key={saving._id}
-                    className="flex items-center justify-between p-5 bg-white border border-gray-50 rounded-2xl hover:shadow-md transition-all group"
+                    className="flex items-center justify-between p-4 md:p-5 bg-white border border-gray-50 rounded-2xl hover:shadow-md transition-all group"
                   >
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">

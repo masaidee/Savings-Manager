@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useApp } from '../hooks/useApp';
 
-export default function RoomForm({ onClose }) {
-  const { createRoom, loading } = useApp();
+export default function RoomForm({ onClose, roomId, initialData }) {
+  const { createRoom, updateRoom, loading } = useApp();
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
+    name: initialData?.name || '',
+    description: initialData?.description || '',
   });
   const [localError, setLocalError] = useState('');
   const [success, setSuccess] = useState('');
@@ -27,12 +27,20 @@ export default function RoomForm({ onClose }) {
     }
 
     try {
-      createRoom({
-        name: formData.name.trim(),
-        description: formData.description.trim(),
-      });
-      setSuccess('เพิ่มห้องเรียนสำเร็จ!');
-      setFormData({ name: '', description: '' });
+      if (roomId) {
+        updateRoom(roomId, {
+          name: formData.name.trim(),
+          description: formData.description.trim(),
+        });
+        setSuccess('บันทึกการแก้ไขสำเร็จ!');
+      } else {
+        createRoom({
+          name: formData.name.trim(),
+          description: formData.description.trim(),
+        });
+        setSuccess('เพิ่มห้องเรียนสำเร็จ!');
+        setFormData({ name: '', description: '' });
+      }
       setTimeout(() => {
         setSuccess('');
         onClose && onClose();
@@ -45,7 +53,7 @@ export default function RoomForm({ onClose }) {
   return (
     <div className="card bg-gradient-to-br from-blue-50 to-white border border-blue-100 sticky top-6">
       <div className="flex items-center justify-between mb-4 md:mb-5">
-        <h2 className="text-base md:text-lg font-bold text-gray-900">📝 เพิ่มห้องเรียน</h2>
+        <h2 className="text-base md:text-lg font-bold text-gray-900">📝 {roomId ? 'แก้ไขห้องเรียน' : 'เพิ่มห้องเรียน'}</h2>
         {onClose && (
           <button
             onClick={onClose}
@@ -105,7 +113,7 @@ export default function RoomForm({ onClose }) {
             className="flex-1 px-3 md:px-4 py-2.5 md:py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200 disabled:opacity-50 text-sm md:text-base"
             disabled={loading}
           >
-            {loading ? 'กำลังเพิ่ม...' : 'เพิ่มห้องเรียน'}
+            {loading ? (roomId ? 'กำลังบันทึก...' : 'กำลังเพิ่ม...') : (roomId ? 'บันทึกการแก้ไข' : 'เพิ่มห้องเรียน')}
           </button>
           {onClose && (
             <button
