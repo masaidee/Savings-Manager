@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import Dashboard from './pages/Dashboard';
+import AddRoom from './pages/AddRoom';
 import RoomDetail from './pages/RoomDetail';
 import StudentDetail from './pages/StudentDetail';
 import Navigation from './components/Navigation';
@@ -16,6 +17,9 @@ function App() {
             <Routes>
               {/* Dashboard / Home Screen */}
               <Route path="/" element={<Dashboard />} />
+
+              {/* Add Room Screen */}
+              <Route path="/add-room" element={<AddRoom />} />
 
               {/* Room Detail Screen */}
               <Route path="/room/:roomId" element={<RoomDetail />} />
