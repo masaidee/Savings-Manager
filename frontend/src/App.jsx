@@ -10,43 +10,25 @@ import EditStudent from './pages/EditStudent';
 import Navigation from './components/Navigation';
 
 function App() {
-  return (
-    <AppProvider>
-      <BrowserRouter>
-        <div className="min-h-screen bg-gray-50">
-          <Navigation />
+   return (
+      <AppProvider>
+         <BrowserRouter>
+            <div className="min-h-screen bg-gray-50 pb-16 md:pb-0">
+               <Navigation />
 
-          <main className="max-w-7xl mx-auto px-3 py-4 md:px-4 md:py-8">
-            <Routes>
-              {/* Dashboard / Home Screen */}
-              <Route path="/" element={<Dashboard />} />
-
-              {/* Add Room Screen */}
-              <Route path="/add-room" element={<AddRoom />} />
-
-              {/* Room Detail Screen */}
-              <Route path="/room/:roomId" element={<RoomDetail />} />
-
-              {/* Edit Room Screen */}
-              <Route path="/room/:roomId/edit" element={<EditRoom />} />
-
-              {/* Add Student Screen */}
-              <Route path="/room/:roomId/add-student" element={<AddStudent />} />
-
-              {/* Student Detail Screen */}
-              <Route path="/student/:studentId" element={<StudentDetail />} />
-
-              {/* Edit Student Screen */}
-              <Route path="/student/:studentId/edit" element={<EditStudent />} />
-
-              {/* 404 Fallback */}
-              <Route path="*" element={<Dashboard />} />
-            </Routes>
-          </main>
-        </div>
-      </BrowserRouter>
-    </AppProvider>
-  );
+               <main className="max-w-7xl mx-auto px-3 py-4 md:px-4 md:py-8">
+                  <Routes>
+                     <Route path="/" element={<Dashboard />} />
+                     <Route path="/add-room" element={<AddRoom />} />
+                     <Route path="/room/:roomId" element={<RoomDetail />} />
+                     <Route path="/room/:roomId/edit" element={<EditRoom />} />
+                     <Route path="/room/:roomId/add-student" element={<AddStudent />} />
+                  </Routes>
+               </main>
+            </div>
+         </BrowserRouter>
+      </AppProvider>
+   );
 }
 
 export default App;
